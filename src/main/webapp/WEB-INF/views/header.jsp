@@ -9,7 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="shortcut icon" type="image/vnd.microsoft.icon" href="${contextPath}/resources/img/icon-favicon.png">
     
-    <title>Session Recording - CEIP Data Dashboard</title>    
+    <title>CEIP Data Dashboard</title>    
 	<link rel="stylesheet" media="screen" href="${contextPath}/resources/css/bootstrap.min.css">
 	<link rel="stylesheet" media="screen" href="${contextPath}/resources/css/site.css">
   </head>
