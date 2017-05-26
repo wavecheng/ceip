@@ -54,7 +54,7 @@ var profileHandlingChart = echarts.init(document.getElementById('profileHandling
 osnameChart.setOption({
     title : {
         text: ' OS Information',
-        subtext: '',
+        subtext: 'Total Record: ${totalCount}',
         x:'center'
     },
 
@@ -88,6 +88,7 @@ osnameChart.setOption({
 versionChart.setOption({
     title : {
         text: 'UPM Version',
+        subtext: 'Total Record: ${totalCount}',
         x:'center'
     },
 
@@ -120,6 +121,7 @@ versionChart.setOption({
 serviceChart.setOption({
     title : {
         text: ' Service Status',
+        subtext: 'Total Record: ${totalCount}',
         x:'center'
     },
     tooltip : {
@@ -151,6 +153,7 @@ serviceChart.setOption({
 migrateProfileChart.setOption({
     title : {
         text: 'Local Profile Conflict Handling',
+        subtext: 'Total Record: ${totalCount}',
         x:'center'
     },
     tooltip : {
@@ -182,6 +185,7 @@ migrateProfileChart.setOption({
 profileHandlingChart.setOption({
     title : {
         text: 'Migration of Existing Profile',
+        subtext: 'Total Record: ${totalCount}',
         x:'center'
     },
     tooltip : {

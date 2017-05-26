@@ -41,6 +41,7 @@ public class LTSRAssController {
 		model.addAttribute("versionData", ltsrAssDataService.getVersion());
 		model.addAttribute("lastUpdateTime", ltsrAssDataService.getLastUpdateTime().toString().substring(0,19));
 		model.addAttribute("totalMachines", ltsrAssDataService.getTotalCheckedMachines());
+		model.addAttribute("totalCount", ltsrAssDataService.getTotalRecord());
 		
 		//header section highlight
 		model.addAttribute("lstrassActive", "active");

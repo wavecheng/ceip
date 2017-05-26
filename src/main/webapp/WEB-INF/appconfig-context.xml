@@ -80,8 +80,8 @@
 	<bean id="cisDataRunner" class="com.citrix.ceip.CISDataRunner" >
 		<constructor-arg>
 			<list>
-<!-- 				<ref bean="srDataFetcher" /> -->
-<!--  				<ref bean="upmDataFetcher" /> -->
+				<ref bean="srDataFetcher" />
+ 				<ref bean="upmDataFetcher" />
  				<ref bean="lstrAssDataFetcher" />
 			</list>
 		</constructor-arg>
