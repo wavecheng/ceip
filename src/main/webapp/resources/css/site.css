@@ -64,7 +64,7 @@ a.nounderline { text-decoration: none;}
 }
 
 .padding-bottom{
-	margin:10px;
+	margin:1px;
 	padding-top:10px;
 	border:1px solid #eee;
 }

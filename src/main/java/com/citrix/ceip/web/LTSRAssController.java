@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.citrix.ceip.CISDataHelper;
 import com.citrix.ceip.CISDataRunner;
+import com.citrix.ceip.service.ltsrass.LTSRAssDataService;
 import com.citrix.ceip.service.sessionrecording.SRDataService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 
@@ -28,19 +29,18 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 public class LTSRAssController {
 
 	@Autowired
-	private SRDataService srDataService;
+	private LTSRAssDataService ltsrAssDataService;
 	
 	@RequestMapping(value={"/",""})
 	public String index(Model model) throws IOException{	
-		
-		
-//		model.addAttribute("customerData", srDataService.getCustomer());
-//		model.addAttribute("osData", srDataService.getOS());
-//		model.addAttribute("recordingTypeData", srDataService.getRecodingNumPerMonth());
-//		model.addAttribute("deploySizeData", srDataService.getAgentSize());
-//		model.addAttribute("countryData", srDataService.getCountry());
-//		model.addAttribute("versionData", srDataService.getVersion());
-//		model.addAttribute("lastUpdateTime", srDataService.getLastUpdateTime().toString().substring(0,19));
+				
+		model.addAttribute("customerData", ltsrAssDataService.getCustomer());
+		model.addAttribute("statusData", ltsrAssDataService.getComplianceStatus());
+		model.addAttribute("complianceCountData", ltsrAssDataService.getComplianceCount());
+		model.addAttribute("countryData", ltsrAssDataService.getCountry());
+		model.addAttribute("versionData", ltsrAssDataService.getVersion());
+		model.addAttribute("lastUpdateTime", ltsrAssDataService.getLastUpdateTime().toString().substring(0,19));
+		model.addAttribute("totalMachines", ltsrAssDataService.getTotalCheckedMachines());
 		
 		//header section highlight
 		model.addAttribute("lstrassActive", "active");

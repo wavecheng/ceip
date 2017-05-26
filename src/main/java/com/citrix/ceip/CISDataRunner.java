@@ -20,7 +20,7 @@ public class CISDataRunner {
 
 	//every day at 22:00 to run data fetcher
 	//@Scheduled(cron="0 0 22 * * *")
-	@Scheduled(fixedRate=3600*1000)
+	//@Scheduled(fixedRate=3600*1000)
 	public void run(){
 		
 		logger.info("start to update CIS data...");

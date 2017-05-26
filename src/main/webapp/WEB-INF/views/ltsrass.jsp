@@ -10,7 +10,7 @@
       </div>
 
 	<div class="row">
-	   <div class="col-md-12 padding-bottom">
+	   <div class="col-md-12">
 	     <div id="customerChart" class="chart-full"></div>
 	   </div>			
 	</div>
@@ -27,20 +27,14 @@
 
       <div class="col-md-1"></div>
       <div class="col-md-5 padding-bottom">
-      	 <div id="osChart" class="chart"></div>
+      	 <div id="statusChart" class="chart"></div>
   	  </div>
   	  <div class="col-md-1"></div>
       <div class="col-md-5 padding-bottom">
-      	 <div id="deploySizeChart" class="chart"></div>
+      	 <div id="complianceCountChart" class="chart"></div>
   	  </div>
  	  </div>
  	  	
-      <div class="row">
-      <div class="col-md-12 padding-bottom">
-      	 <div id="recordingTypeChart" class="chart-full"></div>
-  	  </div>
-  	  </div>
-  	  
       <footer class="footer page-end pull-right">
         <p class="text-muted">&copy; 2017 Citrix Nanjing</p>
       </footer>
@@ -55,10 +49,9 @@
 
 var customerChart = echarts.init(document.getElementById('customerChart'));
 var countryChart = echarts.init(document.getElementById('countryChart'));
-var osChart = echarts.init(document.getElementById('osChart'));
+var statusChart = echarts.init(document.getElementById('statusChart'));
 var versionChart = echarts.init(document.getElementById('versionChart'));
-var deploySizeChart = echarts.init(document.getElementById('deploySizeChart'));
-var recordingTypeChart = echarts.init(document.getElementById('recordingTypeChart'));
+var complianceCountChart = echarts.init(document.getElementById('complianceCountChart'));
 
 var option = {
     title: {
@@ -95,7 +88,7 @@ var option = {
     ],
     yAxis: {},
     series: [{
-        name: 'Cumulative count',
+        name: 'Cumulative Count',
         type: 'bar',
 		data:[
 		  	  <c:forEach items="${customerData}" var="m" >
@@ -141,9 +134,9 @@ countryChart.setOption({
     }]
 });
 
-osChart.setOption({
+statusChart.setOption({
     title : {
-        text: ' Server OS',
+        text: ' Compliance Status',
         subtext: '',
         x:'center'
     },
@@ -159,7 +152,7 @@ osChart.setOption({
             radius : '55%',
             center: ['50%', '60%'],
             data:[
-  		  	  <c:forEach items="${osData}" var="m" >
+  		  	  <c:forEach items="${statusData}" var="m" >
 		  	  	{name: '${m.name}',value:${m.cnt}},
 		  	  </c:forEach>
             ],
@@ -206,9 +199,11 @@ versionChart.setOption({
     ]
 });
 
-deploySizeChart.setOption({
+
+complianceCountChart.setOption({
     title : {
-        text: ' Deploy Size',
+        text: ' Compliance Count',
+        subtext: ' Total Machines:${totalMachines}',
         x:'center'
     },
     legend: {},
@@ -223,8 +218,8 @@ deploySizeChart.setOption({
             radius : '55%',
             center: ['50%', '60%'],
             data:[
-  		  	  <c:forEach items="${deploySizeData}" var="m" >
-		  	  	{name: '${m.key}',value:${m.value}},
+  		  	  <c:forEach items="${complianceCountData}" var="m" >
+		  	  	{name: '${m.key}',value: ${m.value}},
 		  	  </c:forEach>
             ],
             itemStyle: {
@@ -235,104 +230,6 @@ deploySizeChart.setOption({
                 }
             }
         }
-    ]
-});
-
-
-recordingTypeChart.setOption({
-    title : {
-        text: ' Recording Type ',
-        x:'center'
-    },
-    tooltip : {
-        trigger: 'axis',
-        axisPointer : {           
-            type : 'shadow'
-        }
-    },
-    legend: {
-        data:[
-            'Application number','Desktop number'
-        ],
-        bottom:'10%'
-    },
-    calculable : true,
-    grid: {borderWidth:0,y2:100},
-    xAxis : [
-        {
-            type : 'category',
-            splitLine: {show:false},
-            axisLine:{show:true},
-            splitArea:{show:false},
-            axisTick:{show:true},
-            data : [
-    		 <c:forEach items="${recordingTypeData}" var="m" >
-  		  	  	'${m.month}',
-  		  	  </c:forEach>
-            ]
-        },
-    ],
-    yAxis : [
-        {
-            type : 'value',
-            splitLine: {show:false},
-            axisLine:{show:true},
-            splitArea:{show:false},
-            axisTick:{show:true},
-            axisLabel:{formatter:'{value}'}
-        }
-    ],
-    series : [
-        {
-            name:'Application number',
-            type:'bar',
-            stack:'total',
-            itemStyle: {
-                normal: {
-                    barBorderRadius: 0, 
-                    color: "rgba(230,19,16,0.5)", 
-                    label: {
-                        show: true, 
-                        textStyle: {
-                            "color": "rgba(0,0,0,1)"
-                        }, 
-                        position: "insideBottom",
-                        formatter : function(p) {
-	                         return p.value > 0 ? (p.value ): '';
-	                      }
-                    }
-                }
-            }, 
-            data:[
-       		 <c:forEach items="${recordingTypeData}" var="m" >
-		  	  	${m.recordingNum},
-		  	  </c:forEach>
-            ]
-        },
-        {
-            name:'Desktop number',
-            type:'bar',
-            stack:'total',
-            itemStyle:{ normal: {
-                color: "rgba(51,204,112,1)", 
-                barBorderRadius: 0, 
-                label: {
-                    show: true, 
-                    position: "top",
-                    formatter : function(p) {
-                       return p.value > 0 ? (
-                               + p.value + '')
-                               : '';
-                      }
-                }
-              }
-            },
-            data:[
-          		 <c:forEach items="${recordingTypeData}" var="m" >
- 		  	  	${m.desktopNum},
- 		  	  </c:forEach>
-            	]
-        },
     ]
 });
 

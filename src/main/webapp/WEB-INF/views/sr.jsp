@@ -10,7 +10,7 @@
       </div>
 
 	<div class="row">
-	   <div class="col-md-12 padding-bottom">
+	   <div class="col-md-12">
 	     <div id="customerChart" class="chart-full"></div>
 	   </div>			
 	</div>

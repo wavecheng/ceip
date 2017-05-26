@@ -20,44 +20,47 @@ import com.citrix.ceip.service.AbstractDataService;
 @Service
 public class LTSRAssDataService extends AbstractDataService {
 
+	private String totalMachineCount = "";
+	
 	public List<Map> getCustomer(){
-		String sql = " SELECT date(day) e_date , (SELECT  COUNT(DISTINCT id) FROM sr_customer  WHERE DATE(day) <= e_date ) as cnt "
-					+ " FROM sr_customer AS e GROUP BY e_date order by e_date " ;	
+		String sql = " SELECT date(day) e_date , (SELECT  COUNT(DISTINCT uuid) FROM ltsrass_customer  WHERE DATE(day) <= e_date ) as cnt "
+					+ " FROM ltsrass_customer AS e GROUP BY e_date order by e_date " ;	
 		return doQuery(sql);		
 	}
 	
 	public List<Map> getCountry(){
-		String sql = " SELECT country, count(*) cnt FROM sr_customer group by country order by cnt desc  " ;	
+		String sql = " SELECT country, count(*) cnt FROM ltsrass_customer group by country order by cnt desc  " ;	
 		return doQuery(sql);		
 	}	
 	
 	public List<Map> getVersion(){
-		String sql = " SELECT version, count(*) cnt FROM sr_customer group by version order by cnt desc  " ;	
+		String sql = " SELECT ltsrVersion, count(*) cnt FROM ltsrass_summary group by ltsrVersion order by cnt desc  " ;	
 		return doQuery(sql);		
 	}	
 
-	public List<Map> getOS(){
-		String sql = " SELECT os, count(*) cnt FROM sr_customer group by os order by cnt desc  " ;	
+	public List<Map> getComplianceStatus(){
+		String sql = " select complianceStatus , count(complianceStatus) from ltsrass_summary group by complianceStatus " ;	
 		return doQuery(sql);		
 	}	
 	
-	public List<Map> getRecodingNumPerMonth() {
+	public Map getComplianceCount() {
 		EntityManager em = entityManagerFactory.createEntityManager();
-		Query q = em.createNativeQuery("select substr(day,1,7) month, sum(RECORDINGNUM ) recordingNum, sum(APPRECORDINGNUM ) appRecordingNum ,sum(RECORDINGNUM ) - sum(APPRECORDINGNUM ) desktopNum "
-				+ " from sr_recording group by month order by month ");		
+		Query q = em.createNativeQuery("select sum(totalmachines) total, sum(compliantmachines) compliant , sum(noncompliantmachines) non , sum(unvalidatedmachines) notvalidate from ltsrass_summary ");		
 		List<Object[]> results = q.getResultList();
 		
-		List<Map> computed = new ArrayList<Map>();
+		Map m = new HashMap();
 		for(Object[] obj : results){
-			Map m = new HashMap();
-			m.put("month", obj[0]);
-			m.put("recordingNum", obj[1]);
-			m.put("appRecordingNum", obj[2]);
-			m.put("desktopNum", obj[3]);
-			computed.add(m);
+			totalMachineCount = obj[0].toString();
+			m.put("Compliant", obj[1]);
+			m.put("Non-Compliant", obj[2]);
+			m.put("Not Validated", obj[3]);
 		}		
 		em.close();		
-		return computed;
+		return m;
+	}
+	
+	public String getTotalCheckedMachines(){
+		return totalMachineCount;
 	}
 	
 	public Timestamp getLastUpdateTime() {
