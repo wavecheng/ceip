@@ -6,4 +6,6 @@ public interface AppNames {
 	
 	static String UPM = "upm";
 	
+	static String LTSRAssitant = "ltsrass";
+	
 }

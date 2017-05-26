@@ -39,6 +39,10 @@ public class SRController {
 		model.addAttribute("countryData", srDataService.getCountry());
 		model.addAttribute("versionData", srDataService.getVersion());
 		model.addAttribute("lastUpdateTime", srDataService.getLastUpdateTime().toString().substring(0,19));
+		
+		//header section highlight
+		model.addAttribute("srActive", "active");
+		
 		return "sr";
 	}
 	

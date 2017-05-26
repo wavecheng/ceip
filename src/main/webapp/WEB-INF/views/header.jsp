@@ -30,11 +30,11 @@
           <a class="navbar-brand" style="color:white;" href="../">CEIP Data Dashboard</a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
-          <ul class="nav navbar-nav">
-            <li><a href="#"></a></li>
-            <li class="${upmActive}"><a href="../upm/">UPM</a></li>
-            <li class="${srActive}"><a href="../sr/">Session Recording</a></li>
-            <li class="${lstrassActive}"><a href="../ltsrass/">LTSR Assistant</a></li>
+          <ul class="nav navbar-nav" >
+            <li><a href="#" ></a></li>
+            <li class="${upmActive}"><a href="../upm/" style="color:white;">UPM</a></li>
+            <li class="${srActive}"><a href="../sr/" style="color:white;">Session Recording</a></li>
+            <li class="${lstrassActive}"><a href="../ltsrass/" style="color:white;">LTSR Assistant</a></li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
 	        <li><a href="mailto:bo.chen@citrix.com">Report Problem</a></li>

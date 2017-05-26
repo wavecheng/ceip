@@ -24,6 +24,10 @@ public class UPMController {
 		model.addAttribute("migrateProfile", uPMDataService.getMigrateProfile());
 		model.addAttribute("profileHandling", uPMDataService.getProfileHandling());
 		model.addAttribute("lastUpdateTime", uPMDataService.getLastUpdateTime().toString().substring(0, 19));
+		
+		//header section highlight
+		model.addAttribute("upmActive", "active");
+		
 		return "upm";
 	}
 }

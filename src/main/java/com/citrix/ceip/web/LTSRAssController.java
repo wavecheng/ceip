@@ -31,7 +31,9 @@ public class LTSRAssController {
 	private SRDataService srDataService;
 	
 	@RequestMapping(value={"/",""})
-	public String index(Model model) throws IOException{		
+	public String index(Model model) throws IOException{	
+		
+		
 //		model.addAttribute("customerData", srDataService.getCustomer());
 //		model.addAttribute("osData", srDataService.getOS());
 //		model.addAttribute("recordingTypeData", srDataService.getRecodingNumPerMonth());
@@ -39,6 +41,8 @@ public class LTSRAssController {
 //		model.addAttribute("countryData", srDataService.getCountry());
 //		model.addAttribute("versionData", srDataService.getVersion());
 //		model.addAttribute("lastUpdateTime", srDataService.getLastUpdateTime().toString().substring(0,19));
+		
+		//header section highlight
 		model.addAttribute("lstrassActive", "active");
 		return "ltsrass";
 	}
