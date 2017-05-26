@@ -63,6 +63,7 @@ var recordingTypeChart = echarts.init(document.getElementById('recordingTypeChar
 var option = {
     title: {
         text: ' Customer Count',
+        subtext: 'Total Record: ${totalCount}',
         x: 'center'
     },
     toolbox: {
@@ -109,7 +110,7 @@ customerChart.setOption(option);
 countryChart.setOption({
     title : {
         text: ' Deploy Country',
-        subtext: '',
+        subtext: 'Total Record: ${totalCount}',
         x:'center'
     },
     toolbox: {
@@ -144,7 +145,7 @@ countryChart.setOption({
 osChart.setOption({
     title : {
         text: ' Server OS',
-        subtext: '',
+        subtext: 'Total Record: ${totalCount}',
         x:'center'
     },
     legend: {},
@@ -177,6 +178,7 @@ osChart.setOption({
 versionChart.setOption({
     title : {
         text: ' Version',
+        subtext: 'Total Record: ${totalCount}',
         x:'center'
     },
     legend: {},

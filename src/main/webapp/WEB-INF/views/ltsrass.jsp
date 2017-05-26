@@ -56,6 +56,7 @@ var complianceCountChart = echarts.init(document.getElementById('complianceCount
 var option = {
     title: {
         text: ' Customer Count',
+        subtext: 'Total Record: ${totalCount}',
         x: 'center'
     },
     toolbox: {
@@ -102,7 +103,7 @@ customerChart.setOption(option);
 countryChart.setOption({
     title : {
         text: ' Deploy Country',
-        subtext: '',
+        subtext: 'Total Record: ${totalCount}',
         x:'center'
     },
     toolbox: {
@@ -136,8 +137,8 @@ countryChart.setOption({
 
 statusChart.setOption({
     title : {
-        text: ' Compliance Status',
-        subtext: '',
+        text: ' Site Compliance Status',
+        subtext: 'Total Record: ${totalCount}',
         x:'center'
     },
     legend: {},
@@ -169,7 +170,8 @@ statusChart.setOption({
 
 versionChart.setOption({
     title : {
-        text: ' Version',
+        text: ' LTSR Version',
+        subtext: 'Total Record: ${totalCount}',
         x:'center'
     },
     legend: {},
@@ -202,8 +204,8 @@ versionChart.setOption({
 
 complianceCountChart.setOption({
     title : {
-        text: ' Compliance Count',
-        subtext: ' Total Machines:${totalMachines}',
+        text: ' Machine Compliance Status',
+        subtext: ' Total Machines: ${totalMachines} ',
         x:'center'
     },
     legend: {},

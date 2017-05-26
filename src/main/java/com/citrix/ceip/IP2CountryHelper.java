@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.math.BigInteger;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Locale;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.LineIterator;
@@ -56,8 +57,10 @@ public class IP2CountryHelper {
 	public String getCountryByIP(String ip){
 		BigInteger input = ip2int(ip);	
 		for(IPCountry o : list){
-			if(input.compareTo(o.start) >=0 && input.compareTo(o.end) <= 0)
-				return o.country;
+			if(input.compareTo(o.start) >=0 && input.compareTo(o.end) <= 0){
+				Locale locale = new Locale("", o.country);
+				return locale.getDisplayCountry();
+			}
 		}
 		
 		return "other";
@@ -66,6 +69,8 @@ public class IP2CountryHelper {
 	
 	public static void main(String[] args) throws IOException {
 		IP2CountryHelper helper = new IP2CountryHelper(IP2CountryHelper.class.getResource("/ipcountry.txt").getFile());
-		System.out.println(helper.getCountryByIP("103.14.252.251"));		
+		String code = helper.getCountryByIP("103.14.252.251");	
+		Locale l = new Locale("", "US");
+		System.out.println(l.getDisplayCountry());
 	}
 }

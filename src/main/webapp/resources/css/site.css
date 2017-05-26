@@ -73,4 +73,5 @@ a.nounderline { text-decoration: none;}
 	position: fixed;
 	bottom: 1px;
 	right:10px;
+	opacity:0.5;
 }

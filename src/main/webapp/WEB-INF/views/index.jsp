@@ -43,6 +43,15 @@
           <h2>Session Recording </h2>
            </a>
         </div>
+        
+        <div class="col-md-1"></div>
+        <div class="col-md-5 boxer dash-box-div">
+          <a href="ltsrass/" class="nounderline">         
+		  <img src="${contextPath}/resources/img/assisstant.png" class="image-middle" />
+		  <h2>LTSR Assisstant </h2>	
+		  </a>
+        </div>
+        
       </div>  
       
       <footer class="footer page-end">
