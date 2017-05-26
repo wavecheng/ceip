@@ -36,6 +36,7 @@
         <property name="password" value="${jdbc.password}"/>
         <property name="testOnBorrow" value="true" />
         <property name="maxWait" value="-1" />
+        <property name="validationQuery" value="select 1" />
     </bean>
 
     <!-- Configure the entity manager factory bean -->

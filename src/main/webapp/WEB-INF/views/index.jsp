@@ -32,7 +32,7 @@
         <div class="col-md-5 boxer dash-box-div">
           <a href="upm/" class="nounderline">         
 		  <img src="${contextPath}/resources/img/upm.png" class="image-middle" />
-		  <h2>UPM </h2>	
+		  <h2>User Profile Management </h2>	
 		  </a>
         </div>
 
