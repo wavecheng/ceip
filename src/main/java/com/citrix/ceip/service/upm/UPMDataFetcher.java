@@ -1,8 +1,6 @@
 package com.citrix.ceip.service.upm;
 
-import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Iterator;
 import java.util.List;
 
@@ -11,16 +9,16 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.citrix.ceip.CISDataHelper;
-import com.citrix.ceip.DataFetcher;
 import com.citrix.ceip.model.AppNames;
-import com.citrix.ceip.model.LastUpdateTime;
+import com.citrix.ceip.model.upm.Customer;
 import com.citrix.ceip.model.upm.UPMDashboardData;
-import com.citrix.ceip.repository.LastUpdateTimeRepository;
 import com.citrix.ceip.repository.upm.UPMDashboardRepository;
+import com.citrix.ceip.repository.upm.UpmCustomerRepository;
+import com.citrix.ceip.service.AbstractDataFetcher;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 
-public class UPMDataFetcher implements DataFetcher {
+public class UPMDataFetcher extends AbstractDataFetcher  {
 
 	protected static Logger log = LoggerFactory.getLogger(UPMDataFetcher.class);
 	
@@ -31,18 +29,45 @@ public class UPMDataFetcher implements DataFetcher {
 	private UPMDashboardRepository uPMDashboardRepository;
 	
 	@Autowired
-	private LastUpdateTimeRepository lastUpdateTimeRepository;
+	private UpmCustomerRepository upmCustomerRepository;
 	
 	public void getCISData() throws Exception{
-	    
-		String sql = "select uid, min(osname),max(upmversion),max(serviceactive),max(localprofileconflicthandling),"
+	
+		
+		//1. get customer list
+		String sql = "select clientip, max(substr(ctime,1,10)), max(uuid) from upm.uploadinfo group by clientip ";
+		
+		log.info("begin to fetch [upm_customer] ");
+		ArrayNode results = cisDataHelper.getSqlResult(sql);
+
+		Iterator<JsonNode> nodeIterator = results.elements();
+		log.info("fetch [upm_customer] complete with total=" + results.size());
+		if(results.size() == 0) 
+			return;
+		
+		List<Customer> list = new ArrayList<Customer>();
+		while(nodeIterator.hasNext()){
+			JsonNode n = nodeIterator.next();
+			Customer u = new Customer();		
+			u.setClientIP(n.get(0).asText());
+			u.setDay(n.get(1).asText());
+			u.setUuid(n.get(2).asText());
+			u.setCountry(ip2Country.getCountryByIP(u.getClientIP()));			
+			list.add(u);
+		}		
+		upmCustomerRepository.deleteAll();
+		upmCustomerRepository.save(list);
+		log.info("[upm_customer] updated successfully....");
+		
+		//2. get dashboard data
+		sql = "select uid, min(osname),max(upmversion),max(serviceactive),max(localprofileconflicthandling),"
 				+ " max(migratewindowsprofilestouserstore) from upm.user_profile_management group by uid ";
 		
-		List<UPMDashboardData> list = new ArrayList<UPMDashboardData>();
+		List<UPMDashboardData> listDashboard = new ArrayList<UPMDashboardData>();
 		
 		log.info("begin to fetch [upm_dashboard_data] ");
-		ArrayNode results = cisDataHelper.getSqlResult(sql);
-		Iterator<JsonNode> nodeIterator = results.elements();
+		results = cisDataHelper.getSqlResult(sql);
+		nodeIterator = results.elements();
 		log.info("fetch [upm_dashboard_data] complete with total=" + results.size());
 		if(results.size() == 0) 
 			return;
@@ -56,23 +81,14 @@ public class UPMDataFetcher implements DataFetcher {
 	    	u.setServiceActive(Boolean.parseBoolean(n.get(3).asText()));
 	    	u.setLocalProfileConflictHandling(Integer.parseInt(n.get(4).asText()));
 	    	u.setMigrateWindowsProfileToUserstore(Integer.parseInt(n.get(5).asText()));
-	    	list.add(u);	    			    	
+	    	listDashboard.add(u);	    			    	
 	    }	
 	    
 	    uPMDashboardRepository.deleteAll();
-	    uPMDashboardRepository.save(list);
-	    
-	    Timestamp now = Timestamp.from(Calendar.getInstance().getTime().toInstant());
-	    LastUpdateTime last = lastUpdateTimeRepository.findOne(AppNames.UPM);
-		if(last == null){
-			last = new LastUpdateTime();
-			last.setAppName(AppNames.UPM);
-		}
-		last.setLastUpdateTime(now);
-		lastUpdateTimeRepository.save(last);
-		
+	    uPMDashboardRepository.save(listDashboard);
 	    log.info("[upm_dashboard_data] updated successfully....");
 		
+	    updateLastUpdateTime(AppNames.UPM);
 	}
 
 	public String getAppName() {

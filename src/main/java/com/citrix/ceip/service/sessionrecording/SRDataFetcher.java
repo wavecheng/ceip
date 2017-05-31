@@ -10,7 +10,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.citrix.ceip.IP2CountryHelper;
 import com.citrix.ceip.model.AppNames;
 import com.citrix.ceip.model.sessionrecording.Customer;
 import com.citrix.ceip.model.sessionrecording.Recording;
@@ -28,9 +27,7 @@ public class SRDataFetcher extends AbstractDataFetcher {
 	private CustomerRepository customerRepository;
 	@Autowired
 	private RecordingRepository recordingRepository;
-	
-	private IP2CountryHelper ip2Country = new IP2CountryHelper(SRDataFetcher.class.getResource("/ipcountry.txt").getFile());
-	
+
 	@Transactional
 	public void getCISData() throws Exception {
 		

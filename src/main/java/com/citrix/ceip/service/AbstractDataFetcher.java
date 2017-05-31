@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.citrix.ceip.CISDataHelper;
 import com.citrix.ceip.DataFetcher;
+import com.citrix.ceip.IP2CountryHelper;
 import com.citrix.ceip.model.LastUpdateTime;
 import com.citrix.ceip.repository.LastUpdateTimeRepository;
 
@@ -21,6 +22,9 @@ public abstract class AbstractDataFetcher implements DataFetcher {
 	
 	@Autowired
 	private LastUpdateTimeRepository lastUpdateTimeRepository;
+	
+	protected IP2CountryHelper ip2Country = new IP2CountryHelper(AbstractDataFetcher.class.getResource("/ipcountry.txt").getFile());
+	
 	
 	protected void updateLastUpdateTime(String appName){
 	    Timestamp now = Timestamp.from(Calendar.getInstance().getTime().toInstant());
