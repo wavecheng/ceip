@@ -30,6 +30,16 @@ public class UPMDataService extends AbstractDataService {
 		return doQuery(sql);		
 	}
 
+	public List<Map> getCustomer(){
+		String sql = " SELECT day, COUNT(DISTINCT uuid) cnt FROM upm_customer GROUP BY day order by day " ;	
+		return doQuery(sql);		
+	}
+	
+	public List<Map> getCountry(){
+		String sql = " SELECT country, count(*) cnt FROM upm_customer group by country order by cnt desc  " ;	
+		return doQuery(sql);		
+	}	
+	
 	public List<Map> getServiceActive() {
 
 		Map<String,Object> substitue = new HashMap<String,Object>();

@@ -2,8 +2,11 @@ package com.citrix.ceip.model.upm;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Index;
+import javax.persistence.Table;
 
 @Entity(name="upm_customer")
+@Table(indexes={@Index(name="upm_customer_idx_day",columnList="day")})
 public class Customer {
 	
 	@Id

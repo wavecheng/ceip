@@ -9,8 +9,19 @@
         <h1>UPM CEIP Dashboard</h1><span>Data updated @ ${lastUpdateTime}</span>
       </div>
 
+	<div class="row">
+	   <div class="col-md-12">
+	     <div id="customerChart" class="chart-full"></div>
+	   </div>			
+	</div>
+	
     <div class="row">
-       <div class="col-md-1"></div>
+      <div class="col-md-1"></div>
+       <div class="col-md-5 padding-bottom">
+      	 <div id="countryChart" class="chart"></div>
+  	  </div>
+  	  
+      <div class="col-md-1"></div>
        <div class="col-md-5 padding-bottom">
       	 <div id="osnameChart" class="chart"></div>
   	  </div>
@@ -44,13 +55,104 @@
 <script src="${contextPath}/resources/bootstrap.min.js"></script>
 <script src="${contextPath}/resources/echarts.common.min.js"></script>
 <script>
-
+var customerChart = echarts.init(document.getElementById('customerChart'));
+var countryChart = echarts.init(document.getElementById('countryChart'));
 var osnameChart = echarts.init(document.getElementById('osnameChart'));
 var versionChart = echarts.init(document.getElementById('versionChart'));
 var serviceChart = echarts.init(document.getElementById('serviceChart'));
 var migrateProfileChart = echarts.init(document.getElementById('migrateProfileChart'));
 var profileHandlingChart = echarts.init(document.getElementById('profileHandlingChart'));
 
+customerChart.setOption({
+	    title: {
+	        text: ' Customer Count',
+	        subtext: 'Total Record: ${totalCount}',
+	        x: 'center'
+	    },
+	    toolbox: {
+	        feature: {
+	            magicType: {
+	                type: ['bar', 'line']
+	            },
+	            dataView: {},
+	            saveAsImage: {
+	                pixelRatio: 2
+	            }
+	        }
+	    },
+	    tooltip: {},
+	    xAxis: {
+	        data: [
+	        	<c:forEach items="${customerData}" var="m" >
+	 	  	 		"${m.name}",
+		  	  </c:forEach>
+	 	  	 ]
+	    },
+	    dataZoom: [
+	        {
+	            type: 'slider',
+	            show: true,
+	            xAxisIndex: [0],
+	            start: 0,
+	            end: 100
+	        },
+	    ],
+	    yAxis: {},
+	    series: [{
+	        name: 'Daily Count',
+	        type: 'bar',
+			data:[
+			  	  <c:forEach items="${customerData}" var="m" >
+			  	  	 ${m.cnt},
+			  	  </c:forEach>
+			]
+	    }]
+	});
+
+	countryChart.setOption({
+	    title : {
+	        text: ' Deploy Country',
+	        subtext: 'Total Record: ${totalCount}',
+	        x:'center'
+	    },
+	    toolbox: {
+	        feature: {
+	            magicType: {
+	                type: ['bar', 'line']
+	            },
+	            dataView: {},
+	        }
+	    },
+	    tooltip: {},
+	    xAxis: {
+	        data: [
+	        	<c:forEach items="${countryData}" var="m" >
+	 	  	 		"${m.name}",
+		  	  </c:forEach>
+	 	  	 ]
+	    },
+	    dataZoom: [
+	   	        {
+	   	            type: 'slider',
+	   	            show: true,
+	   	            xAxisIndex: [0],
+	   	            start: 0,
+	   	            end: 100
+	   	        },
+	   	    ],
+	    yAxis: {},
+	    series: [{
+	        name: '',
+	        type: 'bar',
+			data:[
+			  	  <c:forEach items="${countryData}" var="m" >
+			  	  	 ${m.cnt},
+			  	  </c:forEach>
+			]
+	    }]
+	});
+
+	
 osnameChart.setOption({
     title : {
         text: ' OS Information',

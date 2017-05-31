@@ -18,6 +18,8 @@ public class UPMController {
 	
 	@RequestMapping({"/", ""})
 	public String index(Model model) throws IOException{
+		model.addAttribute("customerData", uPMDataService.getCustomer());
+		model.addAttribute("countryData",uPMDataService.getCountry());
 		model.addAttribute("osname", uPMDataService.getOSName());
 		model.addAttribute("version", uPMDataService.getVersion());
 		model.addAttribute("service", uPMDataService.getServiceActive());
