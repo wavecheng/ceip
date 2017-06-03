@@ -73,15 +73,19 @@ public class UPMDataFetcher extends AbstractDataFetcher  {
 			return;
 		
 	    while(nodeIterator.hasNext()){
-	    	JsonNode n = nodeIterator.next();
-	    	UPMDashboardData u = new UPMDashboardData();
-	    	u.setUid(n.get(0).asText());
-	    	u.setOsName(n.get(1).asText());
-	    	u.setUpmVersion(n.get(2).asText());
-	    	u.setServiceActive(Boolean.parseBoolean(n.get(3).asText()));
-	    	u.setLocalProfileConflictHandling(Integer.parseInt(n.get(4).asText()));
-	    	u.setMigrateWindowsProfileToUserstore(Integer.parseInt(n.get(5).asText()));
-	    	listDashboard.add(u);	    			    	
+	    	try{
+		    	JsonNode n = nodeIterator.next();
+		    	UPMDashboardData u = new UPMDashboardData();
+		    	u.setUid(n.get(0).asText());
+		    	u.setOsName(n.get(1).asText());
+		    	u.setUpmVersion(n.get(2).asText());
+		    	u.setServiceActive(Boolean.parseBoolean(n.get(3).asText()));
+		    	u.setLocalProfileConflictHandling(Integer.parseInt(n.get(4).asText()));
+		    	u.setMigrateWindowsProfileToUserstore(Integer.parseInt(n.get(5).asText()));
+		    	listDashboard.add(u);	
+	    	}catch(Exception ex){
+	    		log.error("Dashboard parse error:" + ex);
+	    	}
 	    }	
 	    
 	    uPMDashboardRepository.deleteAll();
