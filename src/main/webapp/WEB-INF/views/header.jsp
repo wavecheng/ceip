@@ -35,6 +35,7 @@
             <li class="${upmActive}"><a href="../upm/" style="color:white;">UPM</a></li>
             <li class="${srActive}"><a href="../sr/" style="color:white;">Session Recording</a></li>
             <li class="${lstrassActive}"><a href="../ltsrass/" style="color:white;">LTSR Assistant</a></li>
+            <li class="${linuxvdaActive}"><a href="../linuxvda/" style="color:white;">LinuxVDA</a></li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
 	        <li><a href="mailto:bo.chen@citrix.com">Report Problem</a></li>

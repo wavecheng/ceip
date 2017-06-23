@@ -7,6 +7,7 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.StringUtils;
 
 import com.citrix.ceip.CISDataHelper;
 import com.citrix.ceip.model.AppNames;
@@ -79,7 +80,9 @@ public class LinuxVdaDataFetcher extends AbstractDataFetcher {
 	    	u.setAdSolution(n.get("ad").asText());
 	    	u.setInstallType(n.get("type").asText());
 	    	u.setOsName(n.get("os").asText());
-	    	u.setVersion(n.get("vda").asText());
+	    	String vdaVersion = n.get("vda").asText();
+	    	String[] splitted = vdaVersion.split("\\.", 3);
+	    	u.setVersion(splitted[0] + "." + splitted[1]);
 	    	listDashboard.add(u);	
 	    }	
 	    

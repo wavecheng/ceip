@@ -53,7 +53,16 @@
 		  <h2>LTSR Assisstant </h2>	
 		  </a>
         </div>
-        
+ 
+        <div class="row"> 
+        <div class="col-md-1"></div>
+        <div class="col-md-5 boxer dash-box-div">
+          <a href="linuxvda/" class="nounderline">         
+		  <img src="${contextPath}/resources/img/linuxvda.png" class="image-middle" />
+		  <h2>LinuxVDA </h2>	
+		  </a>
+        </div>
+               
       </div>  
       
       <footer class="footer page-end">
