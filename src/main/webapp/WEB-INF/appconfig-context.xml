@@ -70,6 +70,7 @@
 	<bean id="upmDataFetcher" class="com.citrix.ceip.service.upm.UPMDataFetcher" />
 	<bean id="srDataFetcher" class="com.citrix.ceip.service.sessionrecording.SRDataFetcher" />
 	<bean id="lstrAssDataFetcher" class="com.citrix.ceip.service.ltsrass.LTSRAssDataFetcher" />
+	<bean id="linuxVdaDataFetcher" class="com.citrix.ceip.service.linuxvda.LinuxVdaDataFetcher" />	
 		
 	<bean id="cisDataHelper" class="com.citrix.ceip.CISDataHelper">
 		<property name="baseUrl" value="${cis.baseUrl}" />
@@ -83,6 +84,7 @@
 				<ref bean="srDataFetcher" />
  				<ref bean="upmDataFetcher" />
  				<ref bean="lstrAssDataFetcher" />
+ 				<ref bean="linuxVdaDataFetcher" />
 			</list>
 		</constructor-arg>
 	</bean>

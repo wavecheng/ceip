@@ -28,8 +28,7 @@ public class CISDataRunner {
 			try{
 				df.getCISData();
 			}catch(Exception ex){
-				logger.error("!!!!![" + df.getAppName() + "] update failed!!!!!");
-				logger.error(ex);
+				logger.error("!!!!![" + df.getAppName() + "] update failed!!!!! [ex=]" + ex.getMessage());
 			}			
 		}
 		logger.info("updae CIS data finished...");

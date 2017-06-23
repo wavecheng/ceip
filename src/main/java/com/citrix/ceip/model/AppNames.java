@@ -8,4 +8,6 @@ public interface AppNames {
 	
 	static String LTSRAssitant = "ltsrass";
 	
+	static String LinuxVDA = "linuxvda";
+	
 }

@@ -76,6 +76,24 @@ public class CISDataHelper {
 	    return resultNode;
 	}
 	
+	
+	public ArrayNode getAzureSqlResult(String sql ) throws IOException{	
+		getAccessToken();
+		
+		String url = baseUrl + "/dw/api/sql-azure/";
+		Map<String,Object> param = new HashMap<String,Object>();
+		param.clear();
+		param.put("timeout", 360000);
+		param.put("sql", sql);
+		
+		HttpEntity entity = new HttpEntity(param, generateHeaders().getHeaders());
+		
+		ResponseEntity<String> data = restTemplate.exchange(url, HttpMethod.POST, entity, String.class);
+	    JsonNode node = mapper.readTree(data.getBody());
+	    ArrayNode resultNode = (ArrayNode)node.get("data");				
+	    return resultNode;
+	}
+	
 	private String getAccessToken(){
 		synchronized (accessToken) {
 			if((System.currentTimeMillis() - lastAccessTime) <= TOKEN_MAX_LAST_TIME ){
