@@ -82,7 +82,7 @@ public class LinuxVdaDataFetcher extends AbstractDataFetcher {
 	    	u.setOsName(n.get("os").asText());
 	    	String vdaVersion = n.get("vda").asText();
 	    	String[] splitted = vdaVersion.split("\\.", 3);
-	    	u.setVersion(splitted[0] + "." + splitted[1]);
+	    	u.setVersion(splitted[0].replace("xendesktopvda ", "XenDesktopVDA-") + "." + splitted[1]);
 	    	listDashboard.add(u);	
 	    }	
 	    
