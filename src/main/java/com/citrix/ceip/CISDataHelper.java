@@ -23,7 +23,7 @@ import com.fasterxml.jackson.databind.node.ArrayNode;
 @Configuration
 public class CISDataHelper {
 	protected static Logger log = LoggerFactory.getLogger(CISDataHelper.class);
-	private static long TOKEN_MAX_LAST_TIME = 600L*1000;
+	private static long TOKEN_MAX_LAST_TIME = 3600L*1000;
 	private String baseUrl = "https://cis.citrix.com";
 	private String cisUser = "";
 	private String cisPwd = "";
