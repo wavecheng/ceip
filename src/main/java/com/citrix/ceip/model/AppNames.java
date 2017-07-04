@@ -10,4 +10,6 @@ public interface AppNames {
 	
 	static String LinuxVDA = "linuxvda";
 	
+	static String VdaCleanup = "vdacleanup";
+	
 }
