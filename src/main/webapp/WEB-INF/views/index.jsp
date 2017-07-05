@@ -62,7 +62,16 @@
 		  <h2>LinuxVDA </h2>	
 		  </a>
         </div>
-               
+ 
+         <div class="row"> 
+        <div class="col-md-1"></div>
+        <div class="col-md-5 boxer dash-box-div">
+          <a href="vdacleanup/" class="nounderline">         
+		  <img src="${contextPath}/resources/img/vdacleanup.png" class="image-middle" />
+		  <h2>VDA Cleanup Utility </h2>	
+		  </a>
+        </div>
+                      
       </div>  
       
       <footer class="footer page-end">

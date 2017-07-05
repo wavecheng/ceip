@@ -32,6 +32,14 @@ public abstract class AbstractDataService {
 		return doQuery(sql,null);
 	}
 	
+	protected List doNativeQuery(String sql) {
+		EntityManager em = entityManagerFactory.createEntityManager();
+		Query q = em.createNativeQuery(sql);
+		List results = q.getResultList();
+		em.close();	
+		return results;
+	}
+	
 	protected List<Map> doQuery(String sql, Map<String,Object> substitue) {
 		
 		EntityManager em = entityManagerFactory.createEntityManager();
