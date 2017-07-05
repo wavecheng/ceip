@@ -29,43 +29,37 @@
       <!-- Example row of columns -->
       <div class="row">
         <div class="col-md-1"></div>
-        <div class="col-md-5 boxer dash-box-div">
+        <div class="col-md-3 boxer dash-box-div">
           <a href="upm/" class="nounderline">         
 		  <img src="${contextPath}/resources/img/upm.png" class="image-middle" />
-		  <h2>User Profile Management </h2>	
+		  <h2>UPM</h2>	
 		  </a>
         </div>
 
-		<div class="col-md-1"></div>
-        <div class="col-md-5 boxer dash-box-div">
+        <div class="col-md-3 boxer dash-box-div">
           <a href="sr/" class="nounderline">        
           <img src="${contextPath}/resources/img/sr.png" class="image-middle" />
           <h2>Session Recording </h2>
            </a>
         </div>
-       </div>
-       
-       <div class="row"> 
-        <div class="col-md-1"></div>
-        <div class="col-md-5 boxer dash-box-div">
+        
+        <div class="col-md-3 boxer dash-box-div">
           <a href="ltsrass/" class="nounderline">         
 		  <img src="${contextPath}/resources/img/assisstant.png" class="image-middle" />
 		  <h2>LTSR Assisstant </h2>	
 		  </a>
         </div>
- 
-        <div class="row"> 
+ 	  </div>
+ 	  
+      <div class="row"> 
         <div class="col-md-1"></div>
-        <div class="col-md-5 boxer dash-box-div">
+        <div class="col-md-3 boxer dash-box-div">
           <a href="linuxvda/" class="nounderline">         
 		  <img src="${contextPath}/resources/img/linuxvda.png" class="image-middle" />
 		  <h2>LinuxVDA </h2>	
 		  </a>
         </div>
- 
-         <div class="row"> 
-        <div class="col-md-1"></div>
-        <div class="col-md-5 boxer dash-box-div">
+        <div class="col-md-3 boxer dash-box-div">
           <a href="vdacleanup/" class="nounderline">         
 		  <img src="${contextPath}/resources/img/vdacleanup.png" class="image-middle" />
 		  <h2>VDA Cleanup Utility </h2>	
