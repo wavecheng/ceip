@@ -12,8 +12,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.citrix.ceip.model.AppNames;
 import com.citrix.ceip.model.sessionrecording.Customer;
+import com.citrix.ceip.model.sessionrecording.PieItem;
 import com.citrix.ceip.model.sessionrecording.Recording;
 import com.citrix.ceip.repository.sessionrecording.CustomerRepository;
+import com.citrix.ceip.repository.sessionrecording.PieItemRepository;
 import com.citrix.ceip.repository.sessionrecording.RecordingRepository;
 import com.citrix.ceip.service.AbstractDataFetcher;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -27,7 +29,9 @@ public class SRDataFetcher extends AbstractDataFetcher {
 	private CustomerRepository customerRepository;
 	@Autowired
 	private RecordingRepository recordingRepository;
-
+	@Autowired
+	private PieItemRepository pieItemRepository;
+	
 	@Transactional
 	public void getCISData() throws Exception {
 		
@@ -89,7 +93,50 @@ public class SRDataFetcher extends AbstractDataFetcher {
 		}		
 		recordingRepository.deleteAll();
 		recordingRepository.save(listRecording);
-		log.info("[sr_recording] updated successfully....");
+		
+		//3.1 get loadbalancingstatus 
+		log.info("begin to fetch [sr_pieitem] ");
+		sql = " select loadbalancingstatus, count(*) cnt from srtceip.loadbalanceenable group by loadbalancingstatus ";		
+		log.info("begin to fetch [sr_loadbalancingstatus] ");
+		results = cisDataHelper.getSqlResult(sql);
+
+		nodeIterator = results.elements();
+		log.info("fetch [sr_loadbalancingstatus] complete with total=" + results.size());
+		if(results.size() == 0) 
+			return;
+		
+		List<PieItem> listPieItem = new ArrayList<PieItem>();
+		while(nodeIterator.hasNext()){
+			JsonNode n = nodeIterator.next();
+			PieItem u = new PieItem();
+			u.setName(n.get(0).asText());
+			u.setCount(n.get(1).asInt());
+			u.setType("loadbalancing_status");
+			listPieItem.add(u);
+		}		
+		
+		//3.2 get adminloggingstatus
+		sql = " select adminloggingstatus, count(*) cnt from srtceip.adminlogenable group by adminloggingstatus ";		
+		log.info("begin to fetch [sr_adminloggingstatus] ");
+		results = cisDataHelper.getSqlResult(sql);
+
+		nodeIterator = results.elements();
+		log.info("fetch [sr_adminloggingstatus] complete with total=" + results.size());
+		if(results.size() == 0) 
+			return;
+				
+		while(nodeIterator.hasNext()){
+			JsonNode n = nodeIterator.next();
+			PieItem u = new PieItem();
+			u.setName(n.get(0).asText());
+			u.setCount(n.get(1).asInt());
+			u.setType("adminlogging_status");
+			listPieItem.add(u);
+		}		
+		
+		pieItemRepository.deleteAll();
+		pieItemRepository.save(listPieItem);
+		log.info("[sr_pieitem] updated successfully....");
 		
 		updateLastUpdateTime(AppNames.SessionRecording);
 		

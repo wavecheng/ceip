@@ -38,6 +38,8 @@ public class SRController {
 		model.addAttribute("deploySizeData", srDataService.getAgentSize());
 		model.addAttribute("countryData", srDataService.getCountry());
 		model.addAttribute("versionData", srDataService.getVersion());
+		model.addAttribute("loadBalanceData", srDataService.getLoadBalancingStatus());
+		model.addAttribute("adminLoggingData", srDataService.getAdminLogginStatus());
 		model.addAttribute("lastUpdateTime", srDataService.getLastUpdateTime().toString().substring(0,19));
 		model.addAttribute("totalCount", srDataService.getTotalRecord());
 		

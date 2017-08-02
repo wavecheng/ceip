@@ -34,7 +34,17 @@
       	 <div id="deploySizeChart" class="chart"></div>
   	  </div>
  	  </div>
- 	  	
+
+      <div class="col-md-1"></div>
+      <div class="col-md-5 padding-bottom">
+      	 <div id="lbChart" class="chart"></div>
+  	  </div>
+  	  <div class="col-md-1"></div>
+      <div class="col-md-5 padding-bottom">
+      	 <div id="adminLoggingChart" class="chart"></div>
+  	  </div>
+ 	  </div>
+ 	   	  	
       <div class="row">
       <div class="col-md-12 padding-bottom">
       	 <div id="recordingTypeChart" class="chart-full"></div>
@@ -59,6 +69,8 @@ var osChart = echarts.init(document.getElementById('osChart'));
 var versionChart = echarts.init(document.getElementById('versionChart'));
 var deploySizeChart = echarts.init(document.getElementById('deploySizeChart'));
 var recordingTypeChart = echarts.init(document.getElementById('recordingTypeChart'));
+var lbChart = echarts.init(document.getElementById('lbChart'));
+var adminLoggingChart = echarts.init(document.getElementById('adminLoggingChart'));
 
 var option = {
     title: {
@@ -122,6 +134,15 @@ countryChart.setOption({
         }
     },
     tooltip: {},
+    dataZoom: [
+               {
+                   type: 'slider',
+                   show: true,
+                   xAxisIndex: [0],
+                   start: 0,
+                   end: 100
+               },
+           ],
     xAxis: {
         data: [
         	<c:forEach items="${countryData}" var="m" >
@@ -129,7 +150,6 @@ countryChart.setOption({
 	  	  </c:forEach>
  	  	 ]
     },
-    dataZoom: [],
     yAxis: {},
     series: [{
         name: '',
@@ -227,6 +247,70 @@ deploySizeChart.setOption({
             data:[
   		  	  <c:forEach items="${deploySizeData}" var="m" >
 		  	  	{name: '${m.key}',value:${m.value}},
+		  	  </c:forEach>
+            ],
+            itemStyle: {
+                emphasis: {
+                    shadowBlur: 10,
+                    shadowOffsetX: 0,
+                    shadowColor: 'rgba(0, 0, 0, 0.5)'
+                }
+            }
+        }
+    ]
+});
+
+lbChart.setOption({
+    title : {
+        text: ' Load Balancing Status',
+        x:'center'
+    },
+    legend: {},
+    tooltip : {
+        trigger: 'item',
+        formatter: "{b} <br/> {c} ({d}%)"
+    },
+    series : [
+        {
+            name: '',
+            type: 'pie',
+            radius : '55%',
+            center: ['50%', '60%'],
+            data:[
+  		  	  <c:forEach items="${loadBalanceData}" var="m" >
+		  	  	{name: '${m.name}',value:${m.cnt}},
+		  	  </c:forEach>
+            ],
+            itemStyle: {
+                emphasis: {
+                    shadowBlur: 10,
+                    shadowOffsetX: 0,
+                    shadowColor: 'rgba(0, 0, 0, 0.5)'
+                }
+            }
+        }
+    ]
+});
+
+adminLoggingChart.setOption({
+    title : {
+        text: ' Admin Logging Status',
+        x:'center'
+    },
+    legend: {},
+    tooltip : {
+        trigger: 'item',
+        formatter: "{b} <br/> {c} ({d}%)"
+    },
+    series : [
+        {
+            name: '',
+            type: 'pie',
+            radius : '55%',
+            center: ['50%', '60%'],
+            data:[
+  		  	  <c:forEach items="${adminLoggingData}" var="m" >
+		  	  	{name: '${m.name}',value:${m.cnt}},
 		  	  </c:forEach>
             ],
             itemStyle: {

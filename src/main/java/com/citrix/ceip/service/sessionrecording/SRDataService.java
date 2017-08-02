@@ -39,6 +39,23 @@ public class SRDataService extends AbstractDataService {
 		return doQuery(sql);		
 	}	
 
+	public List<Map> getLoadBalancingStatus(){
+		String sql = " SELECT name, count as cnt FROM sr_pie_item where type='loadbalancing_status' " ;	
+		Map<String,Object> substitute = new HashMap<String,Object>();
+		substitute.put("0", "Disabled");
+		substitute.put("1", "Enabled");
+		return doQuery(sql,substitute);		
+	}
+
+	public List<Map> getAdminLogginStatus(){
+		String sql = " SELECT name, count as cnt FROM sr_pie_item where type='adminlogging_status' " ;	
+		Map<String,Object> substitute = new HashMap<String,Object>();
+		substitute.put("0", "Disabled");
+		substitute.put("1", "Enabled");
+		substitute.put("-1", "Unknown");
+		return doQuery(sql,substitute);		
+	}
+	
 	public List<Map> getOS(){
 		String sql = " SELECT os, count(*) cnt FROM sr_customer group by os order by cnt desc  " ;	
 		return doQuery(sql);		
