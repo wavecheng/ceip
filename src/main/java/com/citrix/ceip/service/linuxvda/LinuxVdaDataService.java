@@ -17,6 +17,12 @@ public class LinuxVdaDataService extends AbstractDataService {
 					+ " FROM linuxvda_customer AS e GROUP BY e_date order by e_date " ;	
 		return doQuery(sql);		
 	}
+
+	public List<Map> getDailyVda(){
+		String sql = " SELECT date(day) e_date , (SELECT  COUNT(DISTINCT machineid) FROM linuxvda_vda  WHERE DATE(day) <= e_date ) as cnt "
+					+ " FROM linuxvda_vda AS e GROUP BY e_date order by e_date " ;	
+		return doQuery(sql);		
+	}
 	
 	public List<Map> getCountry(){
 		String sql = " SELECT country, count(*) cnt FROM linuxvda_customer group by country order by cnt desc  " ;	

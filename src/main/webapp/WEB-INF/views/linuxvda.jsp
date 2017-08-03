@@ -14,7 +14,13 @@
 	     <div id="customerChart" class="chart-full"></div>
 	   </div>			
 	</div>
- 
+
+	<div class="row">
+	   <div class="col-md-12">
+	     <div id="dailyVdaChart" class="chart-full"></div>
+	   </div>			
+	</div>
+	 
  	<div class="row">
 	   <div class="col-md-12">
 	     <div id="countryChart" class="chart-full"></div>
@@ -69,6 +75,7 @@ var installTypeChart = echarts.init(document.getElementById('installTypeChart'))
 var versionChart = echarts.init(document.getElementById('versionChart'));
 var osNameChart = echarts.init(document.getElementById('osNameChart'));
 var adSolutionChart = echarts.init(document.getElementById('adSolutionChart'));
+var dailyVdaChart = echarts.init(document.getElementById('dailyVdaChart'));
 
 var option = {
     title: {
@@ -116,6 +123,52 @@ var option = {
     }]
 };
 customerChart.setOption(option);
+
+dailyVdaChart.setOption({
+    title: {
+        text: ' VDA Count',
+        subtext: 'Total Record: ${totalCount}',
+        x: 'center'
+    },
+    toolbox: {
+        feature: {
+            magicType: {
+                type: ['bar', 'line']
+            },
+            dataView: {},
+            saveAsImage: {
+                pixelRatio: 2
+            }
+        }
+    },
+    tooltip: {},
+    xAxis: {
+        data: [
+        	<c:forEach items="${dailyVdaData}" var="m" >
+ 	  	 		"${m.name}",
+	  	  </c:forEach>
+ 	  	 ]
+    },
+    dataZoom: [
+        {
+            type: 'slider',
+            show: true,
+            xAxisIndex: [0],
+            start: 0,
+            end: 100
+        },
+    ],
+    yAxis: {},
+    series: [{
+        name: 'Cumulative Count',
+        type: 'bar',
+		data:[
+		  	  <c:forEach items="${dailyVdaData}" var="m" >
+		  	  	 ${m.cnt},
+		  	  </c:forEach>
+		]
+    }]
+});
 
 countryChart.setOption({
     title : {

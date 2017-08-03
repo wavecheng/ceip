@@ -60,7 +60,7 @@ public class LinuxVdaDataFetcher extends AbstractDataFetcher {
 		log.info("[linuxvda_customer] updated successfully....");
 		
 		//2. get vdainfo data
-		sql = " select max(machine_guid) machine , max(ad_solution) ad , max(update_or_fresh_install) type, max(os_name_version) os, max(vda_version) vda "
+		sql = " select max(machine_guid) machine , max(ad_solution) ad , max(update_or_fresh_install) type, max(os_name_version) os, max(vda_version) vda ,max(convert(varchar,ctime,111)) day "
 			+ " from linuxvdaceip_vdaceip_view a, linuxvdaceip_uploadinfo_view b "
 			+ " where a.uploaduuid = b.uuid and b.isInternalUpload='false' group by machine_guid  ";
 		
@@ -80,6 +80,7 @@ public class LinuxVdaDataFetcher extends AbstractDataFetcher {
 	    	u.setAdSolution(n.get("ad").asText());
 	    	u.setInstallType(n.get("type").asText());
 	    	u.setOsName(n.get("os").asText());
+	    	u.setDay(n.get("day").asText());
 	    	String vdaVersion = n.get("vda").asText();
 	    	String[] splitted = vdaVersion.split("\\.", 3);
 	    	u.setVersion(splitted[0].replace("xendesktopvda ", "XenDesktopVDA-") + "." + splitted[1]);

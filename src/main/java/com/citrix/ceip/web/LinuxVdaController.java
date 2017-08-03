@@ -36,6 +36,7 @@ public class LinuxVdaController {
 	public String index(Model model) throws IOException{	
 				
 		model.addAttribute("customerData", linuxVdaDataService.getCustomer());
+		model.addAttribute("dailyVdaData", linuxVdaDataService.getDailyVda());
 		model.addAttribute("adSolutionData", linuxVdaDataService.getAdSolution());
 		model.addAttribute("installTypeData", linuxVdaDataService.getInstallType());
 		model.addAttribute("countryData", linuxVdaDataService.getCountry());

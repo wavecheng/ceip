@@ -13,6 +13,8 @@ public class VdaInfo {
 	private String installType;
 	private String osName;
 	private String version;
+	private String day;
+	
 	public String getMachineId() {
 		return machineId;
 	}
@@ -43,5 +45,12 @@ public class VdaInfo {
 	public void setVersion(String version) {
 		this.version = version;
 	}
+	public String getDay() {
+		return day;
+	}
+	public void setDay(String day) {
+		this.day = day;
+	}
 
+	
 }
