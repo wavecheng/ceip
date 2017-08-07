@@ -12,9 +12,11 @@ import org.springframework.util.StringUtils;
 import com.citrix.ceip.CISDataHelper;
 import com.citrix.ceip.model.AppNames;
 import com.citrix.ceip.model.linuxvda.Customer;
+import com.citrix.ceip.model.linuxvda.PieItem;
 import com.citrix.ceip.model.linuxvda.VdaInfo;
 import com.citrix.ceip.repository.linuxvda.LinuxVdaCustomerRepository;
 import com.citrix.ceip.repository.linuxvda.LinuxVdaInfoRepository;
+import com.citrix.ceip.repository.linuxvda.LinuxVdaPieItemRepository;
 import com.citrix.ceip.service.AbstractDataFetcher;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
@@ -32,6 +34,8 @@ public class LinuxVdaDataFetcher extends AbstractDataFetcher {
 	@Autowired
 	private LinuxVdaInfoRepository linuxVdaInfoRepository;
 	
+	@Autowired
+	private LinuxVdaPieItemRepository linuxVdaPieItemRepository;
 	
 	public void getCISData() throws Exception {
 		
@@ -90,6 +94,29 @@ public class LinuxVdaDataFetcher extends AbstractDataFetcher {
 	    linuxVdaInfoRepository.deleteAll();
 	    linuxVdaInfoRepository.save(listDashboard);
 	    log.info("[linuxvda_vdainfo] updated successfully....");
+		
+		sql = " select receiver_type, count(*) cnt from linuxvdaceip_sessionceip_view group by receiver_type ";		
+		log.info("begin to fetch [linuxvda_pie_item] ");
+		results = cisDataHelper.getAzureSqlResult(sql);
+
+		nodeIterator = results.elements();
+		log.info("fetch [linuxvda_pie_item] complete with total=" + results.size());
+		if(results.size() == 0) 
+			return;
+		
+		List<PieItem> listPieItem = new ArrayList<PieItem>();
+		while(nodeIterator.hasNext()){
+			JsonNode n = nodeIterator.next();
+			PieItem u = new PieItem();
+			u.setName(n.get("receiver_type").asText("null"));
+			u.setCount(n.get("cnt").asInt());
+			u.setType("receiver_type");
+			listPieItem.add(u);
+		}		
+		
+		linuxVdaPieItemRepository.deleteAll();
+		linuxVdaPieItemRepository.save(listPieItem);
+		log.info("fetch [linuxvda_pie_item] complete ");
 		
 	    updateLastUpdateTime(AppNames.LinuxVDA);
 	}

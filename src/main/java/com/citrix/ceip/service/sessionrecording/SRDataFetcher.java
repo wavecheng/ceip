@@ -15,7 +15,7 @@ import com.citrix.ceip.model.sessionrecording.Customer;
 import com.citrix.ceip.model.sessionrecording.PieItem;
 import com.citrix.ceip.model.sessionrecording.Recording;
 import com.citrix.ceip.repository.sessionrecording.CustomerRepository;
-import com.citrix.ceip.repository.sessionrecording.PieItemRepository;
+import com.citrix.ceip.repository.sessionrecording.SrPieItemRepository;
 import com.citrix.ceip.repository.sessionrecording.RecordingRepository;
 import com.citrix.ceip.service.AbstractDataFetcher;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -30,7 +30,7 @@ public class SRDataFetcher extends AbstractDataFetcher {
 	@Autowired
 	private RecordingRepository recordingRepository;
 	@Autowired
-	private PieItemRepository pieItemRepository;
+	private SrPieItemRepository srPieItemRepository;
 	
 	@Transactional
 	public void getCISData() throws Exception {
@@ -134,8 +134,8 @@ public class SRDataFetcher extends AbstractDataFetcher {
 			listPieItem.add(u);
 		}		
 		
-		pieItemRepository.deleteAll();
-		pieItemRepository.save(listPieItem);
+		srPieItemRepository.deleteAll();
+		srPieItemRepository.save(listPieItem);
 		log.info("[sr_pieitem] updated successfully....");
 		
 		updateLastUpdateTime(AppNames.SessionRecording);

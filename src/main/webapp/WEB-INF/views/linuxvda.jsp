@@ -41,9 +41,19 @@
       <div class="col-md-5 padding-bottom">
       	 <div id="adSolutionChart" class="chart"></div>
   	  </div>
+  	  
+  	  <div class="col-md-1"></div>
+      <div class="col-md-5 padding-bottom">
+      	 <div id="receiverTypeChart" class="chart"></div>
+  	  </div>
+  	  
   	  <div class="col-md-1"></div>
       <div class="col-md-5 padding-bottom">
       	 <div id="osNameChart" class="chart"></div>
+  	  </div>
+  	  
+  	  <div class="col-md-1"></div>
+      <div class="col-md-5 padding-bottom">
       	 <table class="table table-striped text-left ">
       	  <thead>
       	 	<tr><th>OS Name</th><th>Count</th></tr>
@@ -76,6 +86,7 @@ var versionChart = echarts.init(document.getElementById('versionChart'));
 var osNameChart = echarts.init(document.getElementById('osNameChart'));
 var adSolutionChart = echarts.init(document.getElementById('adSolutionChart'));
 var dailyVdaChart = echarts.init(document.getElementById('dailyVdaChart'));
+var receiverTypeChart = echarts.init(document.getElementById('receiverTypeChart'));
 
 var option = {
     title: {
@@ -266,6 +277,38 @@ versionChart.setOption({
             center: ['50%', '60%'],
             data:[
   		  	  <c:forEach items="${versionData}" var="m" >
+		  	  	{name: '${m.name}',value:${m.cnt}},
+		  	  </c:forEach>
+            ],
+            itemStyle: {
+                emphasis: {
+                    shadowBlur: 10,
+                    shadowOffsetX: 0,
+                    shadowColor: 'rgba(0, 0, 0, 0.5)'
+                }
+            }
+        }
+    ]
+});
+
+receiverTypeChart.setOption({
+    title : {
+        text: ' Receiver Type ',
+        x:'center'
+    },
+    legend: {},
+    tooltip : {
+        trigger: 'item',
+        formatter: "{b} <br/> {c} ({d}%)"
+    },
+    series : [
+        {
+            name: '',
+            type: 'pie',
+            radius : '55%',
+            center: ['50%', '60%'],
+            data:[
+  		  	  <c:forEach items="${receiverTypeData}" var="m" >
 		  	  	{name: '${m.name}',value:${m.cnt}},
 		  	  </c:forEach>
             ],

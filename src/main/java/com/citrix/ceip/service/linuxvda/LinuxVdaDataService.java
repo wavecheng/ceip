@@ -1,6 +1,7 @@
 package com.citrix.ceip.service.linuxvda;
 
 import java.sql.Timestamp;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -48,6 +49,19 @@ public class LinuxVdaDataService extends AbstractDataService {
 		String sql = " SELECT version, count(*) cnt FROM linuxvda_vda group by version order by cnt desc  " ;	
 		return doQuery(sql);		
 	}	
+	
+	public List<Map> getReceiverType(){
+		String sql = " SELECT name, count as cnt FROM linuxvda_pie_item where type='receiver_type' " ;	
+		Map<String,Object> substitute = new HashMap<String,Object>();
+		substitute.put("82", "Mac");
+		substitute.put("1", "Windows");
+		substitute.put("257", "Chrome/HTML5");
+		substitute.put("81", "Linux");
+		substitute.put("83", "iOS");
+		substitute.put("84", "Android");
+		substitute.put("null", "N/A");
+		return doQuery(sql,substitute);		
+	}
 	
 	@Override
 	public Timestamp getLastUpdateTime() {

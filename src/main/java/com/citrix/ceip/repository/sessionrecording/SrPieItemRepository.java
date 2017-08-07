@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 import com.citrix.ceip.model.sessionrecording.PieItem;
 
 @Repository
-public interface PieItemRepository extends JpaRepository<PieItem, Integer> {
+public interface SrPieItemRepository extends JpaRepository<PieItem, Integer> {
 
 }

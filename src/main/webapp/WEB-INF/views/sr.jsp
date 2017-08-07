@@ -33,8 +33,9 @@
       <div class="col-md-5 padding-bottom">
       	 <div id="deploySizeChart" class="chart"></div>
   	  </div>
- 	  </div>
-
+ 	</div>
+ 	
+	<div class="row">
       <div class="col-md-1"></div>
       <div class="col-md-5 padding-bottom">
       	 <div id="lbChart" class="chart"></div>
@@ -43,7 +44,7 @@
       <div class="col-md-5 padding-bottom">
       	 <div id="adminLoggingChart" class="chart"></div>
   	  </div>
- 	  </div>
+ 	 </div>
  	   	  	
       <div class="row">
       <div class="col-md-12 padding-bottom">
