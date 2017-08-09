@@ -82,25 +82,31 @@ public class SRDataService extends AbstractDataService {
 	
 	public Map<String,Integer> getAgentSize() {		
 		List<Recording> allRecords = recordingRepository.findAll();
-		int[] count = new int[4];		
+		int[] count = new int[6];		
 		for(Recording i : allRecords){
 			int num = i.getRecordedAgentNum();
-			if(num < 100){
+			if(num <= 10){
 				count[0] ++;
-			}else if( 100 <= num && num < 500){
+			}else if( 11 <= num && num <= 50){
 				count[1] ++;
-			}else if( 500 <= num && num < 1000){
+			}else if( 50 < num && num <= 100){
 				count[2] ++;
-			}else {
+			}else if( 100 < num && num <= 500){
 				count[3] ++;
+			}else if( 500 < num && num <= 1000){
+				count[4] ++;
+			}else {
+				count[5] ++;
 			}						
 		}
 		
 		Map<String,Integer> computed = new HashMap<String, Integer>();
-		computed.put("(0,100)",count[0]);
-		computed.put("(100,500)",count[1]);
-		computed.put("(500,1000)",count[2]);
-		computed.put("(>1000)",count[3]);		
+		computed.put("(0,10)",count[0]);
+		computed.put("(10,50)",count[1]);
+		computed.put("(50,1000)",count[2]);
+		computed.put("(100,500)",count[3]);
+		computed.put("(500,1000)",count[4]);
+		computed.put("(>1000)",count[5]);		
 		return computed;
 	}
 	
