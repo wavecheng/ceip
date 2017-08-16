@@ -78,6 +78,7 @@ public class LinuxVdaDataFetcher extends AbstractDataFetcher {
 			return;
 		
 	    while(nodeIterator.hasNext()){
+	    	try{
 	    	JsonNode n = nodeIterator.next();
 	    	VdaInfo u = new VdaInfo();
 	    	u.setMachineId(n.get("machine").asText());
@@ -89,6 +90,9 @@ public class LinuxVdaDataFetcher extends AbstractDataFetcher {
 	    	String[] splitted = vdaVersion.split("\\.", 3);
 	    	u.setVersion(splitted[0].replace("xendesktopvda ", "XenDesktopVDA-") + "." + splitted[1]);
 	    	listDashboard.add(u);	
+	    	}catch(Exception ex){
+	    		log.error("error:" + ex);
+	    	}
 	    }	
 	    
 	    linuxVdaInfoRepository.deleteAll();

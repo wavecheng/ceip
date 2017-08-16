@@ -103,7 +103,7 @@ public class SRDataService extends AbstractDataService {
 		Map<String,Integer> computed = new HashMap<String, Integer>();
 		computed.put("(0,10)",count[0]);
 		computed.put("(10,50)",count[1]);
-		computed.put("(50,1000)",count[2]);
+		computed.put("(50,100)",count[2]);
 		computed.put("(100,500)",count[3]);
 		computed.put("(500,1000)",count[4]);
 		computed.put("(>1000)",count[5]);		
