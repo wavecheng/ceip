@@ -78,6 +78,7 @@ public class CISDataHelper {
 	
 	
 	public ArrayNode getAzureSqlResult(String sql ) throws IOException{	
+		
 		getAccessToken();
 		
 		String url = baseUrl + "/dw/api/sql-azure/";

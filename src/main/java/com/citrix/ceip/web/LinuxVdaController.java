@@ -35,7 +35,7 @@ public class LinuxVdaController {
 	@RequestMapping(value={"/",""})
 	public String index(Model model) throws IOException{	
 				
-		model.addAttribute("customerData", linuxVdaDataService.getCustomer());
+		model.addAttribute("weeklyData", linuxVdaDataService.getMonthlyActiveSessionCount());
 		model.addAttribute("dailyVdaData", linuxVdaDataService.getDailyVda());
 		model.addAttribute("adSolutionData", linuxVdaDataService.getAdSolution());
 		model.addAttribute("installTypeData", linuxVdaDataService.getInstallType());
@@ -43,7 +43,7 @@ public class LinuxVdaController {
 		model.addAttribute("osNameData", linuxVdaDataService.getOSName());
 		model.addAttribute("lastUpdateTime", linuxVdaDataService.getLastUpdateTime().toString().substring(0,19));
 		model.addAttribute("versionData", linuxVdaDataService.getVdaVersion());
-
+		model.addAttribute("hdx3dData", linuxVdaDataService.getHdx3dPro());
 		model.addAttribute("receiverTypeData", linuxVdaDataService.getReceiverType());
 		
 		model.addAttribute("totalCustomer", linuxVdaDataService.getTotalCustomerCount());

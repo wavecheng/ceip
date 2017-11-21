@@ -25,6 +25,11 @@ public class LinuxVdaDataService extends AbstractDataService {
 		return doQuery(sql);		
 	}
 	
+	
+	public List<Map> getMonthlyActiveSessionCount(){
+		String sql = " SELECT substr(day,1,7) month, sum(activeSessionNumber) cnt FROM linuxvda_vda  GROUP BY month order by month " ;	
+		return doQuery(sql);
+	}
 	public List<Map> getCountry(){
 		String sql = " SELECT country, count(*) cnt FROM linuxvda_customer group by country order by cnt desc  " ;	
 		return doQuery(sql);		
@@ -32,6 +37,11 @@ public class LinuxVdaDataService extends AbstractDataService {
 
 	public List<Map> getAdSolution(){
 		String sql = " SELECT adSolution, count(*) cnt FROM linuxvda_vda group by adSolution order by cnt desc  " ;	
+		return doQuery(sql);		
+	}	
+	
+	public List<Map> getHdx3dPro(){
+		String sql = " SELECT hdx3d, count(*) cnt FROM linuxvda_vda group by hdx3d order by cnt desc  " ;	
 		return doQuery(sql);		
 	}	
 	

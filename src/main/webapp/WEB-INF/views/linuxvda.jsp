@@ -11,13 +11,13 @@
 
 	<div class="row">
 	   <div class="col-md-12">
-	     <div id="customerChart" class="chart-full"></div>
+	     <div id="dailyVdaChart" class="chart-full"></div>
 	   </div>			
 	</div>
 
 	<div class="row">
 	   <div class="col-md-12">
-	     <div id="dailyVdaChart" class="chart-full"></div>
+	     <div id="weeklyChart" class="chart-full"></div>
 	   </div>			
 	</div>
 	 
@@ -41,7 +41,12 @@
       <div class="col-md-5 padding-bottom">
       	 <div id="adSolutionChart" class="chart"></div>
   	  </div>
-  	  
+
+      <div class="col-md-1"></div>
+      <div class="col-md-5 padding-bottom">
+      	 <div id="hdx3dChart" class="chart"></div>
+  	  </div>
+  	    	  
   	  <div class="col-md-1"></div>
       <div class="col-md-5 padding-bottom">
       	 <div id="receiverTypeChart" class="chart"></div>
@@ -79,7 +84,7 @@
 <script src="${contextPath}/resources/echarts.common.min.js"></script>
 <script>
 
-var customerChart = echarts.init(document.getElementById('customerChart'));
+var weeklyChart = echarts.init(document.getElementById('weeklyChart'));
 var countryChart = echarts.init(document.getElementById('countryChart'));
 var installTypeChart = echarts.init(document.getElementById('installTypeChart'));
 var versionChart = echarts.init(document.getElementById('versionChart'));
@@ -87,11 +92,11 @@ var osNameChart = echarts.init(document.getElementById('osNameChart'));
 var adSolutionChart = echarts.init(document.getElementById('adSolutionChart'));
 var dailyVdaChart = echarts.init(document.getElementById('dailyVdaChart'));
 var receiverTypeChart = echarts.init(document.getElementById('receiverTypeChart'));
+var hdx3dChart = echarts.init(document.getElementById('hdx3dChart'));
 
 var option = {
     title: {
-        text: ' Customer Count',
-        subtext: 'Total Record: ${totalCustomer}',
+        text: ' Monthly Active Session Count',
         x: 'center'
     },
     toolbox: {
@@ -108,7 +113,7 @@ var option = {
     tooltip: {},
     xAxis: {
         data: [
-        	<c:forEach items="${customerData}" var="m" >
+        	<c:forEach items="${weeklyData}" var="m" >
  	  	 		"${m.name}",
 	  	  </c:forEach>
  	  	 ]
@@ -124,16 +129,16 @@ var option = {
     ],
     yAxis: {},
     series: [{
-        name: 'Cumulative Count',
+        name: 'Monthly Active Session Count',
         type: 'bar',
 		data:[
-		  	  <c:forEach items="${customerData}" var="m" >
+		  	  <c:forEach items="${weeklyData}" var="m" >
 		  	  	 ${m.cnt},
 		  	  </c:forEach>
 		]
     }]
 };
-customerChart.setOption(option);
+weeklyChart.setOption(option);
 
 dailyVdaChart.setOption({
     title: {
@@ -257,6 +262,40 @@ installTypeChart.setOption({
         }
     ]
 });
+
+hdx3dChart.setOption({
+    title : {
+        text: ' HDX 3D Pro ',
+        subtext: 'Total Record: ${totalCount}',
+        x:'center'
+    },
+    legend: {},
+    tooltip : {
+        trigger: 'item',
+        formatter: "{b} <br/> {c} ({d}%)"
+    },
+    series : [
+        {
+            name: '',
+            type: 'pie',
+            radius : '55%',
+            center: ['50%', '60%'],
+            data:[
+  		  	  <c:forEach items="${hdx3dData}" var="m" >
+		  	  	{name: '${m.name}',value:${m.cnt}},
+		  	  </c:forEach>
+            ],
+            itemStyle: {
+                emphasis: {
+                    shadowBlur: 10,
+                    shadowOffsetX: 0,
+                    shadowColor: 'rgba(0, 0, 0, 0.5)'
+                }
+            }
+        }
+    ]
+});
+
 
 versionChart.setOption({
     title : {

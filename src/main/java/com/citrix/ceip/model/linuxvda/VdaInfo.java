@@ -14,7 +14,21 @@ public class VdaInfo {
 	private String osName;
 	private String version;
 	private String day;
+	private String hdx3d;
+	private int activeSessionNumber;
 	
+	public String getHdx3d() {
+		return hdx3d;
+	}
+	public void setHdx3d(String hdx3d) {
+		this.hdx3d = hdx3d;
+	}
+	public int getActiveSessionNumber() {
+		return activeSessionNumber;
+	}
+	public void setActiveSessionNumber(int activeSessionNumber) {
+		this.activeSessionNumber = activeSessionNumber;
+	}
 	public String getMachineId() {
 		return machineId;
 	}
