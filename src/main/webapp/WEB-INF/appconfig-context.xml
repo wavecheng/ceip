@@ -83,10 +83,10 @@
 		<constructor-arg>
 			<list>
 				<ref bean="srDataFetcher" />
-<!--  				<ref bean="upmDataFetcher" /> -->
-<!--  				<ref bean="lstrAssDataFetcher" /> -->
+ 				<ref bean="upmDataFetcher" />
+ 				<ref bean="lstrAssDataFetcher" />
  				<ref bean="linuxVdaDataFetcher" />
-<!--  				<ref bean="vdaCleanupDataFetcher" /> -->
+ 				<ref bean="vdaCleanupDataFetcher" />
 			</list>
 		</constructor-arg>
 	</bean>

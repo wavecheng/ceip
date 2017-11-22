@@ -65,7 +65,7 @@ public class LinuxVdaDataFetcher extends AbstractDataFetcher {
 		
 		//2. get vdainfo data
 		sql = " select max(machine_guid) machine , max(ad_solution) ad , max(update_or_fresh_install) type, max(os_name_version) os, "
-			+ " max(vda_version) vda ,max(hdx_3d_pro) hdx3d, max(active_session_number) activeSessionNum, max(convert(varchar,ctime,111)) day "
+			+ " max(vda_version) vda ,max(hdx_3d_pro) hdx3d, max(convert(varchar,ctime,111)) day "
 			+ " from linuxvdaceip_vdaceip_view a, linuxvdaceip_uploadinfo_view b "
 			+ " where a.uploaduuid = b.uuid and b.isInternalUpload='false' group by machine_guid  ";
 		
@@ -87,14 +87,13 @@ public class LinuxVdaDataFetcher extends AbstractDataFetcher {
 	    	u.setInstallType(n.get("type").asText());
 	    	u.setOsName(n.get("os").asText());
 	    	u.setDay(n.get("day").asText());
-	    	u.setActiveSessionNumber(n.get("activeSessionNum").asInt(0));
 	    	u.setHdx3d(n.get("hdx3d").asText(""));
 	    	String vdaVersion = n.get("vda").asText();
 	    	String[] splitted = vdaVersion.split("\\.", 3);
 	    	u.setVersion(splitted[0].replace("xendesktopvda ", "XenDesktopVDA-") + "." + splitted[1]);
 	    	listDashboard.add(u);	
 	    	}catch(Exception ex){
-	    		log.error("error:" + ex);
+	    		log.error("error: vdainfo error:" + ex);
 	    	}
 	    }	
 	    
@@ -102,6 +101,7 @@ public class LinuxVdaDataFetcher extends AbstractDataFetcher {
 	    linuxVdaInfoRepository.save(listDashboard);
 	    log.info("[linuxvda_vdainfo] updated successfully....");
 		
+	    //3.receiver info
 		sql = " select receiver_type, count(*) cnt from linuxvdaceip_sessionceip_view group by receiver_type ";		
 		log.info("begin to fetch [linuxvda_pie_item] ");
 		results = cisDataHelper.getAzureSqlResult(sql);
@@ -118,6 +118,27 @@ public class LinuxVdaDataFetcher extends AbstractDataFetcher {
 			u.setName(n.get("receiver_type").asText("null"));
 			u.setCount(n.get("cnt").asInt());
 			u.setType("receiver_type");
+			listPieItem.add(u);
+		}		
+		
+		//4. session count
+		sql = " select convert(varchar,ctime,111) name, count(*) cnt "
+				+ " from linuxvdaceip_sessionceip_view a, linuxvdaceip_uploadinfo_view b "
+				+ " where a.uploaduuid = b.uuid and b.isInternalUpload='false' group by convert(varchar,ctime,111)  ";		
+		log.info("begin to fetch [linuxvda_pie_item_day_session] ");
+		results = cisDataHelper.getAzureSqlResult(sql);
+
+		nodeIterator = results.elements();
+		log.info("fetch [linuxvda_pie_item_day_session] complete with total=" + results.size());
+		if(results.size() == 0) 
+			return;
+		
+		while(nodeIterator.hasNext()){
+			JsonNode n = nodeIterator.next();
+			PieItem u = new PieItem();
+			u.setName(n.get("name").asText(""));
+			u.setCount(n.get("cnt").asInt());
+			u.setType("daily_session");
 			listPieItem.add(u);
 		}		
 		

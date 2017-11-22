@@ -27,7 +27,7 @@ public class LinuxVdaDataService extends AbstractDataService {
 	
 	
 	public List<Map> getMonthlyActiveSessionCount(){
-		String sql = " SELECT substr(day,1,7) month, sum(activeSessionNumber) cnt FROM linuxvda_vda  GROUP BY month order by month " ;	
+		String sql = " SELECT substr(name,1,7) month, sum(count) cnt FROM linuxvda_pie_item where type='daily_session'  GROUP BY month order by month " ;	
 		return doQuery(sql);
 	}
 	public List<Map> getCountry(){
