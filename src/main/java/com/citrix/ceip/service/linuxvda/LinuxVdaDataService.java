@@ -44,6 +44,11 @@ public class LinuxVdaDataService extends AbstractDataService {
 		String sql = " SELECT hdx3d, count(*) cnt FROM linuxvda_vda group by hdx3d order by cnt desc  " ;	
 		return doQuery(sql);		
 	}	
+
+	public List<Map> getVdiMode(){
+		String sql = " SELECT vdiMode, count(*) cnt FROM linuxvda_vda group by vdiMode order by cnt desc  " ;	
+		return doQuery(sql);		
+	}	
 	
 	public List<Map> getInstallType(){
 		String sql = " SELECT installType, count(*) cnt FROM linuxvda_vda group by installType order by cnt desc  " ;	

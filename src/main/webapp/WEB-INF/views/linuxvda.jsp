@@ -46,7 +46,12 @@
       <div class="col-md-5 padding-bottom">
       	 <div id="hdx3dChart" class="chart"></div>
   	  </div>
-  	    	  
+
+      <div class="col-md-1"></div>
+      <div class="col-md-5 padding-bottom">
+      	 <div id="vdiModeChart" class="chart"></div>
+  	  </div>
+  	    	    	  
   	  <div class="col-md-1"></div>
       <div class="col-md-5 padding-bottom">
       	 <div id="receiverTypeChart" class="chart"></div>
@@ -93,6 +98,8 @@ var adSolutionChart = echarts.init(document.getElementById('adSolutionChart'));
 var dailyVdaChart = echarts.init(document.getElementById('dailyVdaChart'));
 var receiverTypeChart = echarts.init(document.getElementById('receiverTypeChart'));
 var hdx3dChart = echarts.init(document.getElementById('hdx3dChart'));
+var vdiModeChart = echarts.init(document.getElementById('vdiModeChart'));
+
 
 var option = {
     title: {
@@ -382,6 +389,39 @@ adSolutionChart.setOption({
             center: ['50%', '60%'],
             data:[
   		  	  <c:forEach items="${adSolutionData}" var="m" >
+		  	  	{name: '${m.name}',value: ${m.cnt}},
+		  	  </c:forEach>
+            ],
+            itemStyle: {
+                emphasis: {
+                    shadowBlur: 10,
+                    shadowOffsetX: 0,
+                    shadowColor: 'rgba(0, 0, 0, 0.5)'
+                }
+            }
+        }
+    ]
+});
+
+vdiModeChart.setOption({
+    title : {
+        text: ' VDI Mode',
+        subtext: ' Total Count: ${totalCount} ',
+        x:'center'
+    },
+    legend: {},
+    tooltip : {
+        trigger: 'item',
+        formatter: "{b} <br/> {c} ({d}%)"
+    },
+    series : [
+        {
+            name: '',
+            type: 'pie',
+            radius : '55%',
+            center: ['50%', '60%'],
+            data:[
+  		  	  <c:forEach items="${vdiModeData}" var="m" >
 		  	  	{name: '${m.name}',value: ${m.cnt}},
 		  	  </c:forEach>
             ],

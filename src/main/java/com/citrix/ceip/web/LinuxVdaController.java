@@ -44,6 +44,7 @@ public class LinuxVdaController {
 		model.addAttribute("lastUpdateTime", linuxVdaDataService.getLastUpdateTime().toString().substring(0,19));
 		model.addAttribute("versionData", linuxVdaDataService.getVdaVersion());
 		model.addAttribute("hdx3dData", linuxVdaDataService.getHdx3dPro());
+		model.addAttribute("vdiModeData", linuxVdaDataService.getVdiMode());
 		model.addAttribute("receiverTypeData", linuxVdaDataService.getReceiverType());
 		
 		model.addAttribute("totalCustomer", linuxVdaDataService.getTotalCustomerCount());

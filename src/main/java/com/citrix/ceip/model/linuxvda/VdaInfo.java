@@ -15,7 +15,15 @@ public class VdaInfo {
 	private String version;
 	private String day;
 	private String hdx3d;
+	private String vdiMode;
 
+	
+	public String getVdiMode() {
+		return vdiMode;
+	}
+	public void setVdiMode(String vdiMode) {
+		this.vdiMode = vdiMode;
+	}
 	public String getHdx3d() {
 		return hdx3d;
 	}
