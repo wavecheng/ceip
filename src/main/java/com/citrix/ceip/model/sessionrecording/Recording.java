@@ -1,19 +1,29 @@
 package com.citrix.ceip.model.sessionrecording;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
 @Entity(name="sr_recording")
 public class Recording {
 
 	@Id
-	private String uuid;
+	@GeneratedValue
+	private int id;
 	
+	private String uuid;
 	private String day;
 	private int appRecordingNum;
 	private int recordedAgentNum;
 	private int recordingNum;
 	
+	
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
+	}
 	public String getUuid() {
 		return uuid;
 	}

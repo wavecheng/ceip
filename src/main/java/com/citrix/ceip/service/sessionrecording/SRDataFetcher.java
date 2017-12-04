@@ -67,38 +67,100 @@ public class SRDataFetcher extends AbstractDataFetcher {
 		log.info("[sr_customer] updated successfully....");
 		
 		//2. get recoding list
-		sql = " select b.uuid, substr(b.ctime,1,10) day , a.recordedagentnum ,  c.recordingnum , d.apprecordingnum "
-			+ " from srtceip.recordedagentnum a, srtceip.uploadinfo b , srtceip.recordingnum  c,  srtceip.apprecordingnum d "
-			+ " where a.uploaduuid=b.uuid and a.uploaduuid=c.uploaduuid and d.uploaduuid=a.uploaduuid "
-			+ " and (a.recordedagentnum > 0 or c.recordingnum > 0 or d.apprecordingnum > 0 ) ";
-		
-		log.info("begin to fetch [sr_recording] ");
-		results = cisDataHelper.getSqlResult(sql);
+//		sql = " select e.uuid, substr(b.ctime,1,10) day , a.recordedagentnum ,  c.recordingnum , d.apprecordingnum "
+//			+ " from srtceip.recordedagentnum a, srtceip.uploadinfo b , srtceip.recordingnum  c,  srtceip.apprecordingnum d  "
+//			+ " where a.uploaduuid=b.uuid and a.uploaduuid=c.uploaduuid and d.uploaduuid=a.uploaduuid " 
+//		    + " and (a.recordedagentnum > 0 or c.recordingnum > 0 or d.apprecordingnum > 0 ) ";
+//		
+//		log.info("begin to fetch [sr_recording] ");
+//		results = cisDataHelper.getSqlResult(sql);
+
+		//2.1 get monthly recording Agent numbers by customer
+		sql = " select distinct b.customeruuid, substring(convert(varchar,c.ctime,111),1,7) month , max(a.recordedagentnum) cnt  "
+				+ "from srtceip_recordedagentnum_view a, srtceip_customer_view b , srtceip_uploadinfo_view c "
+				+ " where a.uploaduuid=b.uploaduuid and a.recordedagentnum > 0 and a.uploaduuid=c.uuid "
+				+ "group by b.customeruuid, substring(convert(varchar,c.ctime,111),1,7) ";
+		log.info("begin to fetch [sr_recordedAgentNum] ");
+		results = cisDataHelper.getAzureSqlResult(sql);
 
 		nodeIterator = results.elements();
-		log.info("fetch [sr_recording] complete with total=" + results.size());
-		if(results.size() == 0) 
-			return;
-		
+		log.info("fetch [sr_recordedagentnum] complete with total=" + results.size());
 		List<Recording> listRecording = new ArrayList<Recording>();
 		while(nodeIterator.hasNext()){
 			JsonNode n = nodeIterator.next();
 			Recording u = new Recording();
-			u.setUuid(n.get(0).asText());
-			u.setDay(n.get(1).asText());
-			u.setRecordedAgentNum(n.get(2).asInt());
-			u.setRecordingNum(n.get(3).asInt());
-			u.setAppRecordingNum(n.get(4).asInt());
+			u.setUuid(n.get("customeruuid").asText());
+			u.setDay(n.get("month").asText());
+			u.setRecordedAgentNum(n.get("cnt").asInt());
 			listRecording.add(u);
 		}		
+		
+		//2.2 get recording num
+		sql = " select distinct b.customeruuid, substring(convert(varchar,c.ctime,111),1,7) month , max(a.recordingnum) cnt  "
+				+ "from srtceip_recordingnum_view a, srtceip_customer_view b , srtceip_uploadinfo_view c "
+				+ " where a.uploaduuid=b.uploaduuid and a.recordingnum > 0 and a.uploaduuid=c.uuid "
+				+ "group by b.customeruuid, substring(convert(varchar,c.ctime,111),1,7) ";
+		log.info("begin to fetch [sr_recordingnum] ");
+		results = cisDataHelper.getAzureSqlResult(sql);
+		nodeIterator = results.elements();
+		log.info("fetch [sr_recordingnum] complete with total=" + results.size());
+		while(nodeIterator.hasNext()){
+			JsonNode n = nodeIterator.next();
+			String uuid = n.get("customeruuid").asText();
+			String month = n.get("month").asText();
+			Recording u = findExistingRecord(listRecording,uuid,month);
+			if(u != null){
+				//listRecording.remove(u);
+				u.setRecordingNum(n.get("cnt").asInt());
+			}
+			else{
+				u = new Recording();
+				u.setUuid(n.get("customeruuid").asText());
+				u.setDay(n.get("month").asText());
+				u.setRecordingNum(n.get("cnt").asInt());
+				listRecording.add(u);
+			}		
+		}	
+
+		//2.3 get apprecording num
+		sql = " select distinct b.customeruuid, substring(convert(varchar,c.ctime,111),1,7) month , max(a.apprecordingnum) cnt  "
+				+ "from srtceip_apprecordingnum_view a, srtceip_customer_view b , srtceip_uploadinfo_view c "
+				+ " where a.uploaduuid=b.uploaduuid and a.apprecordingnum > 0 and a.uploaduuid=c.uuid "
+				+ "group by b.customeruuid, substring(convert(varchar,c.ctime,111),1,7) ";
+		log.info("begin to fetch [sr_apprecordingnum] ");
+		results = cisDataHelper.getAzureSqlResult(sql);
+		nodeIterator = results.elements();
+		log.info("fetch [sr_apprecordingnum] complete with total=" + results.size());
+		while(nodeIterator.hasNext()){
+			JsonNode n = nodeIterator.next();
+			String uuid = n.get("customeruuid").asText();
+			String month = n.get("month").asText();
+			Recording u = findExistingRecord(listRecording,uuid,month);
+			if(u != null){
+				//listRecording.remove(u);
+				u.setAppRecordingNum(n.get("cnt").asInt());
+			}
+			else{
+				u = new Recording();
+				u.setUuid(n.get("customeruuid").asText());
+				u.setDay(n.get("month").asText());
+				u.setAppRecordingNum(n.get("cnt").asInt());
+				listRecording.add(u);
+			}
+			
+		}
+		
 		recordingRepository.deleteAll();
 		recordingRepository.save(listRecording);
+		log.info("saving sr_recording...." + listRecording.size());
 		
 		//3.1 get loadbalancingstatus 
-		log.info("begin to fetch [sr_pieitem] ");
-		sql = " select loadbalancingstatus, count(*) cnt from srtceip.loadbalanceenable group by loadbalancingstatus ";		
+		log.info("begin to fetch [sr_pieitem] ");	
+		sql = "select loadbalancingstatus, count(*) as cnt from ( " 
+				+ " select distinct b.customeruuid, a.loadbalancingstatus from srtceip_loadbalanceenable_view a , srtceip_customer_view b where a.uploaduuid = b.uploaduuid "
+				+ " ) t group by loadbalancingstatus ";
 		log.info("begin to fetch [sr_loadbalancingstatus] ");
-		results = cisDataHelper.getSqlResult(sql);
+		results = cisDataHelper.getAzureSqlResult(sql);
 
 		nodeIterator = results.elements();
 		log.info("fetch [sr_loadbalancingstatus] complete with total=" + results.size());
@@ -109,16 +171,18 @@ public class SRDataFetcher extends AbstractDataFetcher {
 		while(nodeIterator.hasNext()){
 			JsonNode n = nodeIterator.next();
 			PieItem u = new PieItem();
-			u.setName(n.get(0).asText());
-			u.setCount(n.get(1).asInt());
+			u.setName(n.get("loadbalancingstatus").asText());
+			u.setCount(n.get("cnt").asInt());
 			u.setType("loadbalancing_status");
 			listPieItem.add(u);
 		}		
 		
-		//3.2 get adminloggingstatus
-		sql = " select adminloggingstatus, count(*) cnt from srtceip.adminlogenable group by adminloggingstatus ";		
+		//3.2 get adminloggingstatus	
+		sql = "select adminloggingstatus, count(*) as cnt from ( " 
+				+ " select distinct b.customeruuid, a.adminloggingstatus from srtceip_adminlogenable_view a , srtceip_customer_view b where a.uploaduuid = b.uploaduuid "
+				+ " ) t group by adminloggingstatus ";
 		log.info("begin to fetch [sr_adminloggingstatus] ");
-		results = cisDataHelper.getSqlResult(sql);
+		results = cisDataHelper.getAzureSqlResult(sql);
 
 		nodeIterator = results.elements();
 		log.info("fetch [sr_adminloggingstatus] complete with total=" + results.size());
@@ -128,8 +192,8 @@ public class SRDataFetcher extends AbstractDataFetcher {
 		while(nodeIterator.hasNext()){
 			JsonNode n = nodeIterator.next();
 			PieItem u = new PieItem();
-			u.setName(n.get(0).asText());
-			u.setCount(n.get(1).asInt());
+			u.setName(n.get("adminloggingstatus").asText());
+			u.setCount(n.get("cnt").asInt());
 			u.setType("adminlogging_status");
 			listPieItem.add(u);
 		}		
@@ -137,13 +201,19 @@ public class SRDataFetcher extends AbstractDataFetcher {
 		srPieItemRepository.deleteAll();
 		srPieItemRepository.save(listPieItem);
 		log.info("[sr_pieitem] updated successfully....");
-		
+
 		updateLastUpdateTime(AppNames.SessionRecording);
-		
 	}
 
 	public String getAppName() {
 		return AppNames.SessionRecording;
 	}
 
+	private Recording findExistingRecord(List<Recording> list, String uuid, String month){
+		for(Recording r:list){
+			if(r.getUuid().compareToIgnoreCase(uuid) == 0 && r.getDay().compareToIgnoreCase(month) == 0)
+				return r;
+		}
+		return null;
+	}
 }

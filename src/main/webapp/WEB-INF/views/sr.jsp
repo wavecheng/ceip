@@ -14,7 +14,13 @@
 	     <div id="customerChart" class="chart-full"></div>
 	   </div>			
 	</div>
-    
+
+      <div class="row">
+      <div class="col-md-12 padding-bottom">
+      	 <div id="recordingTypeChart" class="chart-full"></div>
+  	  </div>
+  	  </div>
+  	      
     <div class="row">
        <div class="col-md-1"></div>
        <div class="col-md-5 padding-bottom">
@@ -46,11 +52,6 @@
   	  </div>
  	 </div>
  	   	  	
-      <div class="row">
-      <div class="col-md-12 padding-bottom">
-      	 <div id="recordingTypeChart" class="chart-full"></div>
-  	  </div>
-  	  </div>
   	  
       <footer class="footer page-end pull-right">
         <p class="text-muted">&copy; 2017 Citrix Nanjing</p>
@@ -328,7 +329,7 @@ adminLoggingChart.setOption({
 
 recordingTypeChart.setOption({
     title : {
-        text: ' Recording Type ',
+        text: ' Recording Files ',
         x:'center'
     },
     tooltip : {

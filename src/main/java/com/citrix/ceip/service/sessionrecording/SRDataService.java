@@ -63,7 +63,7 @@ public class SRDataService extends AbstractDataService {
 	
 	public List<Map> getRecodingNumPerMonth() {
 		EntityManager em = entityManagerFactory.createEntityManager();
-		Query q = em.createNativeQuery("select substr(day,1,7) month, sum(RECORDINGNUM ) recordingNum, sum(APPRECORDINGNUM ) appRecordingNum ,sum(RECORDINGNUM ) - sum(APPRECORDINGNUM ) desktopNum "
+		Query q = em.createNativeQuery("select day as month, sum(RECORDINGNUM ) recordingNum, sum(APPRECORDINGNUM ) appRecordingNum ,sum(RECORDINGNUM ) - sum(APPRECORDINGNUM ) desktopNum "
 				+ " from sr_recording group by month order by month ");		
 		List<Object[]> results = q.getResultList();
 		
@@ -81,10 +81,13 @@ public class SRDataService extends AbstractDataService {
 	}
 	
 	public Map<String,Integer> getAgentSize() {		
-		List<Recording> allRecords = recordingRepository.findAll();
+		EntityManager em = entityManagerFactory.createEntityManager();
+		Query q = em.createNativeQuery("SELECT DISTINCT uuid , max(recordedAgentNum) from sr_recording group by uuid ");		
+		List<Object[]> results = q.getResultList();
+
 		int[] count = new int[6];		
-		for(Recording i : allRecords){
-			int num = i.getRecordedAgentNum();
+		for(Object[] obj : results){
+			int num = Integer.parseInt(obj[1].toString());
 			if(num <= 10){
 				count[0] ++;
 			}else if( 11 <= num && num <= 50){
